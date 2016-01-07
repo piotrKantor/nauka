@@ -1,1 +1,0 @@
-drobny początek
