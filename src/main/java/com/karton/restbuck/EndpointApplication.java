@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping(path = "users")
 public class EndpointApplication {
 
-    static List<User> users=new ArrayList<>();
+    List<User> users=new ArrayList<>();
 
     @RequestMapping(path = "get", method = RequestMethod.GET)
     List<User> getUsers(){
