@@ -1,6 +1,6 @@
-package org.karton.restbuck;
+package org.karton.restbuck.user.web;
 
-import com.karton.restbuck.EndpointApplication;
+import com.karton.restbuck.Main;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,15 +15,16 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = EndpointApplication.class)
+@SpringApplicationConfiguration(classes = Main.class)
 @WebAppConfiguration
-public class EndpointApplicationTest {
+public class UserControllerTest {
 
     final String NAME ="highlander";
-    final String GET="http://localhost:8080/users/get";
-    final String ADD="http://localhost:8080/users/add?name="+ NAME;
+    final String GET="http://localhost:8080/users";
+    final String ADD="http://localhost:8080/users?name=";
 
     @Autowired
     WebApplicationContext webCtx;
@@ -37,7 +38,7 @@ public class EndpointApplicationTest {
 
     @Test
     public void shouldGetCorrectUser() throws Exception {
-        mockMvc.perform(get(ADD));
+        mockMvc.perform(post(ADD+NAME));
         MvcResult result= mockMvc.perform(get(GET)).andReturn();
         String actual=result.getResponse().getContentAsString();
         String expected=new StringBuilder()

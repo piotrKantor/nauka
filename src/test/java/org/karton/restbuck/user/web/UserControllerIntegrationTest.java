@@ -1,34 +1,29 @@
-package org.karton.restbuck;
+package org.karton.restbuck.user.web;
 
 
-import com.karton.restbuck.EndpointApplication;
+import com.karton.restbuck.Main;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = EndpointApplication.class)
+@SpringApplicationConfiguration(classes = Main.class)
 @IntegrationTest
 @WebAppConfiguration
-public class EndpointApplicationIntegrationTest {
+public class UserControllerIntegrationTest {
 
     final String NAME ="highlander";
-    final String GET="http://localhost:8080/users/get";
-    final String ADD="http://localhost:8080/users/add?name="+ NAME;
+    final String GET="http://localhost:8080/users";
+    final String ADD="http://localhost:8080/users?name=";
 
     @Test
     public void testGetUser() throws Exception{
-        new RestTemplate().getForObject(ADD, String.class);
+        new RestTemplate().postForLocation(ADD+NAME, String.class);
         String result=new RestTemplate().getForObject(GET, String.class);
         String expected=new StringBuilder()
                 .append("[{\"name\":\"")

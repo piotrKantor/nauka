@@ -1,4 +1,4 @@
-package com.karton.restbuck;
+package com.karton.restbuck.user;
 
 import lombok.Builder;
 import lombok.Getter;
