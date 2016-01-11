@@ -26,19 +26,9 @@ public class EndpointApplicationTest {
     final String GET="http://localhost:8080/users/get";
     final String ADD="http://localhost:8080/users/add?name="+ NAME;
 
-    @Autowired
-    WebApplicationContext webCtx;
-
-    private MockMvc mockMvc;
-
-    @Before
-    public void setup() {
-        mockMvc= MockMvcBuilders.webAppContextSetup(webCtx).build();
-    }
-
     @Test
     public void testGetUser() throws Exception{
-        String tmp=new RestTemplate().getForObject(ADD, String.class);
+        new RestTemplate().getForObject(ADD, String.class);
         String result=new RestTemplate().getForObject(GET, String.class);
         String expected=new StringBuilder()
                 .append("[{\"name\":\"")
