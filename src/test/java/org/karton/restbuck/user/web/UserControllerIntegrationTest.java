@@ -23,14 +23,14 @@ import java.util.List;
 @WebAppConfiguration
 public class UserControllerIntegrationTest {
 
-    final String NAME ="highlander";
-    final String GET="http://localhost:8080/users";
-    final String ADD="http://localhost:8080/users?name=";
+    private final String NAME ="highlander";
+    private final String GET="http://localhost:8080/users";
+    private final String ADD="http://localhost:8080/users?name=";
 
     @Test
     public void testGetUser() throws Exception{
-        new RestTemplate().postForLocation(ADD+NAME, String.class);
         RestTemplate restTemplate=new RestTemplate();
+        restTemplate.postForLocation(ADD+NAME, String.class);
         ResponseEntity<List<User>> usersResponse =
                 restTemplate.exchange(GET, HttpMethod.GET, null, new ParameterizedTypeReference<List<User>>() {});
         List<User> users = usersResponse.getBody();

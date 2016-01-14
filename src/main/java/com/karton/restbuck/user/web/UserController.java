@@ -23,8 +23,8 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    String postUser(String name){
-        return serviceUsers.postUser(name);
+    void postUser(String name){
+        serviceUsers.postUser(name);
     }
 
 }

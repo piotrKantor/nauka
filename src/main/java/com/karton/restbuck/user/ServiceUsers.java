@@ -16,9 +16,8 @@ public class ServiceUsers {
         return userRepository.findAll();
     }
 
-    public String postUser(String name){
+    public void postUser(String name){
         User user = User.builder().name(name).build();
         userRepository.save(user);
-        return "Success";
     }
 }

@@ -22,9 +22,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @WebAppConfiguration
 public class UserControllerTest {
 
-    final String NAME ="highlander";
-    final String GET="http://localhost:8080/users";
-    final String ADD="http://localhost:8080/users?name=";
+    private final String NAME ="highlander";
+    private final String GET="http://localhost:8080/users";
+    private final String ADD="http://localhost:8080/users?name=";
 
     @Autowired
     WebApplicationContext webCtx;
