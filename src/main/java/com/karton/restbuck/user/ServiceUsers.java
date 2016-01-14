@@ -1,21 +1,24 @@
 package com.karton.restbuck.user;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ServiceUsers {
 
-    List<User> users=new ArrayList<>();
+    private final UserRepository userRepository;
 
     public List<User> getUsers(){
-        return users;
+        return userRepository.findAll();
     }
 
     public String postUser(String name){
-        users.add(User.builder().name(name).build());
-        return users.get(users.size()-1).getName();
+        User user = User.builder().name(name).build();
+        userRepository.save(user);
+        return "Success";
     }
 }

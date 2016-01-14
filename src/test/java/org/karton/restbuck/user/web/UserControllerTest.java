@@ -1,7 +1,6 @@
 package org.karton.restbuck.user.web;
 
 import com.karton.restbuck.Main;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,6 +13,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
@@ -40,13 +40,8 @@ public class UserControllerTest {
     public void shouldGetCorrectUser() throws Exception {
         mockMvc.perform(post(ADD+NAME));
         MvcResult result= mockMvc.perform(get(GET)).andReturn();
-        String actual=result.getResponse().getContentAsString();
-        String expected=new StringBuilder()
-                .append("[{\"name\":\"")
-                .append(NAME)
-                .append("\"}]")
-                .toString();
-        Assert.assertEquals(expected, actual);
+        String content=result.getResponse().getContentAsString();
+        assertThat(content).containsPattern(NAME);
     }
 
 }
