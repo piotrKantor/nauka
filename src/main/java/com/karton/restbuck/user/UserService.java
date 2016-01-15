@@ -8,7 +8,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class ServiceUsers {
+public class UserService {
 
     private final UserRepository userRepository;
 
@@ -16,8 +16,9 @@ public class ServiceUsers {
         return userRepository.findAll();
     }
 
-    public void postUser(String name){
+    public User createUser(String name){
         User user = User.builder().name(name).build();
         userRepository.save(user);
+        return user;
     }
 }

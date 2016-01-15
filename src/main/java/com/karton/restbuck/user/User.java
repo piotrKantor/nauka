@@ -1,9 +1,6 @@
 package com.karton.restbuck.user;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.experimental.Tolerate;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +9,8 @@ import javax.persistence.Id;
 @Builder
 @Getter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue
@@ -20,7 +19,4 @@ public class User {
     @NonNull
     private String name;
 
-    @Tolerate
-    public User() {
-    }
 }

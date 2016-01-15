@@ -1,8 +1,9 @@
 package com.karton.restbuck.user.web;
 
-import com.karton.restbuck.user.ServiceUsers;
 import com.karton.restbuck.user.User;
-import lombok.AllArgsConstructor;
+import com.karton.restbuck.user.UserService;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,19 +13,19 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "users")
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserController {
 
-    private ServiceUsers serviceUsers;
+    @NonNull private final UserService userService;
 
     @RequestMapping(method = RequestMethod.GET)
     List<User> getUsers(){
-        return serviceUsers.getUsers();
+        return userService.getUsers();
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    void postUser(String name){
-        serviceUsers.postUser(name);
+    User postUser(String name){
+        return userService.createUser(name);
     }
 
 }
