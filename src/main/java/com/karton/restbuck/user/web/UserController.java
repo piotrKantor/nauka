@@ -5,6 +5,7 @@ import com.karton.restbuck.user.UserService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,6 +27,11 @@ public class UserController {
     @RequestMapping(method = RequestMethod.POST)
     User postUser(String name){
         return userService.createUser(name);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "{id}/task")
+    User addTask(@PathVariable("id") Long id, String name){
+        return userService.addTask(id, name);
     }
 
 }
