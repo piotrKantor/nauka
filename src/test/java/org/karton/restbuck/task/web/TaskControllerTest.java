@@ -23,8 +23,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 public class TaskControllerTest {
 
     private final String NAME ="highlander";
-    private final String GET="/users";
-    private final String ADD="/users?name=";
+    private final String GET="/tasks";
+    private final String ADD="/tasks?name=";
 
     @Autowired
     WebApplicationContext webCtx;
@@ -37,7 +37,7 @@ public class TaskControllerTest {
     }
 
     @Test
-    public void shouldGetCorrectTask() throws Exception {
+    public void shouldGetTheSameTaskNameItCreatedByPost() throws Exception {
         mockMvc.perform(post(ADD+NAME));
         MvcResult result= mockMvc.perform(get(GET)).andReturn();
         String content=result.getResponse().getContentAsString();
