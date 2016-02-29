@@ -1,6 +1,13 @@
 package com.karton.restbuck.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-public interface UserRepository extends JpaRepository<User, Long>{
+import java.util.Optional;
+
+public interface UserRepository extends JpaRepository<UserAccount, Long>{
+
+    @Query("from UserAccount where name=?")
+    Optional<UserAccount> findUserAccountByName(@Param("name") String name);
 }

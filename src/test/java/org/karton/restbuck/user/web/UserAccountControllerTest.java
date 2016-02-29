@@ -19,11 +19,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Main.class)
 @WebAppConfiguration
-public class UserControllerTest {
+public class UserAccountControllerTest {
 
     private final String NAME ="highlander";
+    private final String PASSWORD ="&password=there_can_be_only_one";
     private final String GET="/users";
     private final String ADD="/users?name=";
+    private final String LOGIN="/login?username=highlander&password=there_can_be_only_one";
     private final String TASK_CREATE ="/tasks?name=";
     private final String ASSIGN_TASK ="/users/1/task?name=";
     private final String TASK_NAME="zadanie1";
@@ -40,7 +42,8 @@ public class UserControllerTest {
 
     @Test
     public void shouldGetCorrectUser() throws Exception {
-        mockMvc.perform(post(ADD+NAME));
+        mockMvc.perform(post(ADD+NAME+PASSWORD));
+        mockMvc.perform(post(LOGIN));
         MvcResult result= mockMvc.perform(get(GET)).andReturn();
         String content=result.getResponse().getContentAsString();
         assertThat(content).containsPattern(NAME);

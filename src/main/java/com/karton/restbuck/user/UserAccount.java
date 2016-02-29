@@ -3,10 +3,7 @@ package com.karton.restbuck.user;
 import com.karton.restbuck.task.Task;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Builder
@@ -14,13 +11,25 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class UserAccount {
     @Id
     @GeneratedValue
     private Long id;
 
     @NonNull
+    @Column(nullable = false, unique = true)
     private String name;
+
+    @Column(nullable = false)
+    private boolean active;
+
+    @NonNull
+    @Column(nullable = false)
+    private String hash;
+
+    @NonNull
+    @Column(nullable = false)
+    private Role role;
 
     @OneToMany
     private List<Task> tasks;
