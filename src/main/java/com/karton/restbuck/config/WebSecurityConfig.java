@@ -10,23 +10,21 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
-@AllArgsConstructor(onConstructor = @__(@Autowired))
 @NoArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    DataSource dataSource;
-
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http
+                .csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/users").access("hasRole('USER')")
+                .antMatchers(HttpMethod.GET, "/users").hasAuthority("USER")
                 .and()
                 .formLogin().loginProcessingUrl("/login")
                 .permitAll();
@@ -34,6 +32,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth, UserAccountDetailsService userAccountDetailsService) throws Exception {
-        auth.userDetailsService(userAccountDetailsService);
+        auth.userDetailsService(userAccountDetailsService)
+                .passwordEncoder(new BCryptPasswordEncoder())
+        ;
     }
 }

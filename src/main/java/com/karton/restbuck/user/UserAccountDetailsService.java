@@ -19,10 +19,12 @@ public class UserAccountDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<UserAccount> account = userRepository.findUserAccountByName(username);
-        String login=account.map(UserAccount::getName).orElse("");
-        String password=account.map(UserAccount::getHash).orElse("");
-        String role=account.map(UserAccount::getRole).get().toString();
+        UserAccount account = userRepository
+                .findUserAccountByName(username)
+                .orElseThrow(() -> new UsernameNotFoundException("username: " + username));
+        String login=account.getName();
+        String password=account.getHash();
+        String role=account.getRole().toString();
         return new User(login, password, AuthorityUtils.createAuthorityList(role));
     }
 
