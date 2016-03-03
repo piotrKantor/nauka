@@ -4,7 +4,6 @@ import com.karton.restbuck.task.Task;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Builder

@@ -1,7 +1,7 @@
 package com.karton.restbuck.config;
 
+import com.karton.restbuck.user.Role;
 import com.karton.restbuck.user.UserAccountDetailsService;
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.Http401AuthenticationEntryPoint;
@@ -12,17 +12,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
 import java.io.IOException;
 
 @Configuration
@@ -30,25 +26,27 @@ import java.io.IOException;
 @NoArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    public static final String USERS = "/users";
+    public static final String LOGIN = "/login";
+    public static final String ACCESS_DENIED_URL = "/403";
+    public static final String HTTP401_HEADER_VALUE = "401";
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/users").hasAuthority("USER")
+                .antMatchers(HttpMethod.GET, USERS).hasAuthority(Role.USER.toString())
                 .and()
-                .formLogin().loginProcessingUrl("/login")
+                .formLogin().loginProcessingUrl(LOGIN)
                 .successHandler(successHandler())
                 .permitAll()
-                .defaultSuccessUrl("/users")
+                .defaultSuccessUrl(USERS)
                 .and()
-                .exceptionHandling().accessDeniedPage("/403")
-                .authenticationEntryPoint(new Http401AuthenticationEntryPoint("401"));
+                .exceptionHandling().accessDeniedPage(ACCESS_DENIED_URL)
+                .authenticationEntryPoint(new Http401AuthenticationEntryPoint(HTTP401_HEADER_VALUE));
     }
 
-    /**
-     * This method
-     */
     private AuthenticationSuccessHandler successHandler() {
         return new SimpleUrlAuthenticationSuccessHandler(){
 
