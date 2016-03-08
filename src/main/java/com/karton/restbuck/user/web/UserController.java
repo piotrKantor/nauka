@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,12 +25,17 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    ResponseEntity<UserAccount> postUser(String name, String password){
-        if(name==null||password==null){
-            return new ResponseEntity<UserAccount>(HttpStatus.BAD_REQUEST);
+    ResponseEntity<?> postUser(String name, String password){
+        if(StringUtils.isEmpty(name)||StringUtils.isEmpty(password)){
+            return new ResponseEntity<String>("Name and password cannot be null",HttpStatus.BAD_REQUEST);
         }
-        UserAccount account=userService.createUser(name, password);
-        return new ResponseEntity<UserAccount>(account, HttpStatus.OK);
+        try {
+            UserAccount account = userService.createUser(name, password);
+            return new ResponseEntity<UserAccount>(account, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<String>("User with given name already exists",HttpStatus.CONFLICT);
+        }
+
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "{id}/task")

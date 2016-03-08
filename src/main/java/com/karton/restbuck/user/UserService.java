@@ -23,7 +23,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public UserAccount createUser(String name, String password){
+    public UserAccount createUser(String name, String password)throws Exception{
         PasswordEncoder passwordEncoder= new BCryptPasswordEncoder();
         UserAccount userAccount = UserAccount
                 .builder()
