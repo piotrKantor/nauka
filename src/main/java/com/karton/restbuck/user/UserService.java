@@ -4,6 +4,7 @@ import com.karton.restbuck.task.Task;
 import com.karton.restbuck.task.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final TaskRepository taskRepository;
 
+    @Secured({"ROLE_DUPA"})
     public List<UserAccount> getUsers(){
         return userRepository.findAll();
     }
