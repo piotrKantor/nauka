@@ -3,6 +3,9 @@ package org.karton.restbuck.user.web
 import com.karton.restbuck.Main
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.SpringApplicationConfiguration
+import org.springframework.security.authentication.TestingAuthenticationToken
+import org.springframework.security.core.context.SecurityContext
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.web.WebAppConfiguration
 import org.springframework.test.web.servlet.MockMvc
@@ -39,6 +42,8 @@ class UserAccountControllerTest extends Specification{
 
     def shouldGetUserItPosted(){
         given:
+        TestingAuthenticationToken authenticationToken = new TestingAuthenticationToken("userName", null, "ROLE_USER")
+        SecurityContextHolder.getContext().setAuthentication(authenticationToken)
         mockMvc.perform(post(ADD+NAME+PASSWORD));
 
         when:

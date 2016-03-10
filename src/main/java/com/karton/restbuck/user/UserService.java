@@ -20,7 +20,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final TaskRepository taskRepository;
 
-    @Secured({"ROLE_DUPA"})
+    @Secured({"ROLE_USER"})
     public List<UserAccount> getUsers(){
         return userRepository.findAll();
     }
@@ -32,7 +32,7 @@ public class UserService {
                 .name(name)
                 .hash(passwordEncoder.encode(password))
                 .active(true)
-                .role(Role.USER)
+                .role(Role.ROLE_USER)
                 .build();
         userRepository.save(userAccount);
         return userAccount;
